@@ -28,10 +28,10 @@
 
 *Screenshot pokazuje formularz z wstrzykniętym kodem `<script>alert('blahblah')</script>` w polu "Name".*
 
-### 2. Rezultat - Alert JavaScript
+### 2. Rezultat - Alert
 ![Screenshot alertu XSS](img/wstrzykniecie_rezultat.png)
 
-*Screenshot pokazuje alert JavaScript wyświetlony po wstrzyknięciu kodu. Alert potwierdza, że kod JavaScript został zapisany w bazie danych i wykonany w przeglądarce użytkownika.*
+*Screenshot pokazuje alert wyświetlony po wstrzyknięciu kodu. Alert potwierdza, że kod  został zapisany w bazie danych i wykonany w przeglądarce użytkownika.*
 
 ### 3. Wstrzyknięte kody w tabeli
 ![Screenshot wstrzykniętych kodów w tabeli](img/wstrzykniete_kody.png)
@@ -68,18 +68,7 @@ Usunięto filtr `| safe` z szablonów HTML, co pozwala Flask na automatyczne esc
 <td>{{ book.name }}</td>
 ```
 
-### 3. Podwójna ochrona
-
-- **Poziom 1:** Sanitizacja na backendzie (usuwanie tagów HTML przed zapisem)
-- **Poziom 2:** Automatyczne escapowanie HTML w szablonach (Flask domyślnie escapuje HTML)
-
-## Zmienione pliki
-
-1. `Python/Flask_Book_Library/requirements.txt` - dodano `bleach==6.1.0`
-2. `Python/Flask_Book_Library/project/books/views.py` - dodano sanitizację w `create_book()` i `edit_book()`
-3. `Python/Flask_Book_Library/project/customers/views.py` - dodano sanitizację w `create_customer()` i `edit_customer()`
-4. `Python/Flask_Book_Library/project/templates/books.html` - usunięto filtr `| safe` z pól `name` i `author`
-5. `Python/Flask_Book_Library/project/templates/customers.html` - usunięto filtr `| safe` z pól `name` i `city`
+Zastosowano zatem dwa poziomy ochrony.
 
 ## Weryfikacja poprawki
 
@@ -93,7 +82,7 @@ Po wprowadzeniu poprawek:
 ### 2. Rezultat w tabeli Books
 ![Screenshot rezultatu po poprawce - Books](img/po_poprawce_rezultat.png)
 
-*Screenshot pokazuje, że kod XSS nie został wykonany - został wyświetlony jako zwykły tekst w tabeli Customers. Kod HTML został usunięty przez sanitizację i escapowanie.*
+*Screenshot pokazuje, że kod XSS nie został wykonany - alert się nie wyświetlił i kod został wyświetlony jako zwykły tekst w tabeli Customers. Kod HTML został usunięty przez sanitizację i escapowanie.*
 
 ### 3. Rezultat w tabeli Customers
 ![Screenshot rezultatu po poprawce - Customers](img/po_poprawce_rezultat2.png)

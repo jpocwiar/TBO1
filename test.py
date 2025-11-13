@@ -4,11 +4,8 @@ Test jednostkowy weryfikujący walidator danych wejściowych.
 Ten test weryfikuje funkcję sanitizacji (bleach.clean) używaną w aplikacji Flask
 do zapobiegania atakom XSS. Test sprawdza zarówno poprawne, jak i niepoprawne
 warianty danych wejściowych.
-
-Walidator jest używany w:
-- project/books/views.py (funkcje create_book, edit_book)
-- project/customers/views.py (funkcje create_customer, edit_customer)
 """
+
 import unittest
 from bleach import clean
 
