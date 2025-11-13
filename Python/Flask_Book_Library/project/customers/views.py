@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, request, redirect, url_for, jsonify
 from project import db
 from project.customers.models import Customer
+from bleach import clean
 
 
 # Blueprint for customers
@@ -35,7 +36,11 @@ def create_customer():
         print('Invalid form data')
         return jsonify({'error': 'Invalid form data'}), 400
 
-    new_customer = Customer(name=data['name'], city=data['city'], age=data['age'])
+    # Sanitize input data to prevent XSS attacks
+    sanitized_name = clean(data['name'], tags=[], strip=True)
+    sanitized_city = clean(data['city'], tags=[], strip=True)
+
+    new_customer = Customer(name=sanitized_name, city=sanitized_city, age=data['age'])
 
     try:
         # Add the new customer to the session and commit to save to the database
@@ -84,9 +89,13 @@ def edit_customer(customer_id):
         # Get data from the request
         data = request.form
 
+        # Sanitize input data to prevent XSS attacks
+        sanitized_name = clean(data['name'], tags=[], strip=True)
+        sanitized_city = clean(data['city'], tags=[], strip=True)
+
         # Update customer details
-        customer.name = data['name']
-        customer.city = data['city']
+        customer.name = sanitized_name
+        customer.city = sanitized_city
         customer.age = data['age']
 
         # Commit the changes to the database
